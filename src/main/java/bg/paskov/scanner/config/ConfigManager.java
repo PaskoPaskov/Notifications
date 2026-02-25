@@ -1,5 +1,12 @@
-import java.io.*;
-import java.nio.file.*;
+package bg.paskov.scanner.config;
+
+import bg.paskov.scanner.util.LogErrors;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class ConfigManager {
@@ -19,7 +26,7 @@ public class ConfigManager {
             try (InputStream in = Files.newInputStream(configPath)) {
                 properties.load(in);
             } catch (IOException e) {
-                logErrors.log("ConfigManager", "ERROR", "Failed to load config", e);
+                logErrors.log("bg.paskov.scanner.config.ConfigManager", "ERROR", "Failed to load config", e);
             }
         }
     }
@@ -35,7 +42,7 @@ public class ConfigManager {
     // Save configuration to file
     public void save() {
         try (OutputStream out = Files.newOutputStream(configPath)) {
-            properties.store(out, "MobileBgScanner configuration");
+            properties.store(out, "bg.paskov.scanner.service.MobileBgScanner configuration");
         } catch (IOException e) {
             throw new RuntimeException("Failed to save configuration", e);
         }
@@ -63,7 +70,7 @@ public class ConfigManager {
             properties.clear();
 
             logErrors.log(
-                    "ConfigManager",
+                    "bg.paskov.scanner.config.ConfigManager",
                     "INFO",
                     "Configuration cleared",
                     null
@@ -71,7 +78,7 @@ public class ConfigManager {
 
         } catch (IOException e) {
             logErrors.log(
-                    "ConfigManager",
+                    "bg.paskov.scanner.config.ConfigManager",
                     "ERROR",
                     "Failed to clear configuration",
                     e

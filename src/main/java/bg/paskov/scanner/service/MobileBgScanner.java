@@ -1,9 +1,16 @@
+package bg.paskov.scanner.service;
+
+import bg.paskov.scanner.model.Advertisement;
+import bg.paskov.scanner.notification.Notifiable;
+import bg.paskov.scanner.util.LogErrors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashSet;
@@ -14,10 +21,10 @@ public class MobileBgScanner implements SiteScanner {
     private final Set<Advertisement> oldAdvertisements = new LinkedHashSet<>();
     private final Set<Advertisement> newAdvertisements = new LinkedHashSet<>();
     private final String url;
-    private boolean hasNewAdvertisements;
     private final Notifiable notifier;
-    private LogErrors logErrors;
-    private Path oldAdvertisementsPath;
+    private boolean hasNewAdvertisements;
+    private final LogErrors logErrors;
+    private final Path oldAdvertisementsPath;
 
 
     public MobileBgScanner(String url, Notifiable notifier, LogErrors logErrors, Path oldAdvertisementsPath) {
@@ -41,7 +48,7 @@ public class MobileBgScanner implements SiteScanner {
             elements = doc.select("div.item:not(.fakti)");
             return elements;
         } catch (IOException e) {
-            logErrors.log("MobileBgScanner", "Error", "Problem downloading HTML", e);
+            logErrors.log("bg.paskov.scanner.service.MobileBgScanner", "Error", "Problem downloading HTML", e);
             System.err.println("[ERROR] Проблем при сваляне на HTML: " + e.getMessage());
             return new Elements();
         }
@@ -79,7 +86,7 @@ public class MobileBgScanner implements SiteScanner {
 
                 if (parts.length != 3) {
                     logErrors.log(
-                            "MobileBgScanner",
+                            "bg.paskov.scanner.service.MobileBgScanner",
                             "WARN",
                             "Skipping malformed line in old advertisements file: " + line,
                             null
@@ -97,7 +104,7 @@ public class MobileBgScanner implements SiteScanner {
             }
         } catch (IOException e) {
             logErrors.log(
-                    "MobileBgScanner",
+                    "bg.paskov.scanner.service.MobileBgScanner",
                     "ERROR",
                     "Failed to read old advertisements file",
                     e
@@ -138,7 +145,7 @@ public class MobileBgScanner implements SiteScanner {
             }
         } catch (IOException e) {
             logErrors.log(
-                    "MobileBgScanner",
+                    "bg.paskov.scanner.service.MobileBgScanner",
                     "ERROR",
                     "Failed to save advertisements",
                     e

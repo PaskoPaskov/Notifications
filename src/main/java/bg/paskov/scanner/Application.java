@@ -1,5 +1,16 @@
+package bg.paskov.scanner;
+
+import bg.paskov.scanner.config.ConfigManager;
+import bg.paskov.scanner.notification.EmailSender;
+import bg.paskov.scanner.notification.Notifiable;
+import bg.paskov.scanner.notification.TypesNotifire;
+import bg.paskov.scanner.service.MobileBgScanner;
+import bg.paskov.scanner.service.SiteScanner;
+import bg.paskov.scanner.ui.SetupWizard;
+import bg.paskov.scanner.ui.TrayManager;
+import bg.paskov.scanner.util.LogErrors;
+
 import java.nio.file.Path;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -33,9 +44,9 @@ public class Application {
 
         if (!configManager.isValidConfiguration()) {
             logErrors.log(
-                    "Application",
+                    "bg.paskov.scanner.Application",
                     "INFO",
-                    "Application terminated: configuration not completed",
+                    "bg.paskov.scanner.Application terminated: configuration not completed",
                     null
             );
             System.exit(0);

@@ -1,19 +1,24 @@
+package bg.paskov.scanner.ui;
+
+import bg.paskov.scanner.config.ConfigManager;
+import bg.paskov.scanner.util.LogErrors;
+
 import java.awt.*;
 import java.io.File;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class TrayManager {
-    private TrayIcon trayIcon;
-    private LogErrors logErrors;
     ScheduledExecutorService scheduledExecutorService;
     ConfigManager configManager;
     SetupWizard setupWizard;
+    private TrayIcon trayIcon;
+    private final LogErrors logErrors;
 
     public TrayManager(LogErrors logErrors, ScheduledExecutorService executor, ConfigManager configManager, SetupWizard setupWizard) {
         this.logErrors = logErrors;
         this.scheduledExecutorService = executor;
-        this. configManager = configManager;
+        this.configManager = configManager;
         this.setupWizard = setupWizard;
     }
 
@@ -45,30 +50,18 @@ public class TrayManager {
             menu.add(exit);
 
 
-            trayIcon = new TrayIcon(image, "MobileBgScanner", menu);
+            trayIcon = new TrayIcon(image, "bg.paskov.scanner.service.MobileBgScanner", menu);
             trayIcon.setImageAutoSize(true);
 
             tray.add(trayIcon);
 
         } catch (Exception e) {
-            logErrors.log("TrayManager", "ERROR", "Failed to init tray", e);
+            logErrors.log("bg.paskov.scanner.ui.TrayManager", "ERROR", "Failed to init tray", e);
         }
     }
 
     // Restart the application with the specified command-line argument
     private void reconfigureApp() {
-//        if (!isRunningFromExe()) {
-//            if (trayIcon != null) {
-//                trayIcon.displayMessage(
-//                        "Restart unavailable",
-//                        "Restart works only in installed version.",
-//                        TrayIcon.MessageType.INFO
-//                );
-//                return;
-//            }
-//        }
-
-
         stopScheduler();
         configManager.clearProperties();
         setupWizard.runIfNeeded();

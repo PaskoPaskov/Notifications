@@ -1,8 +1,15 @@
+package bg.paskov.scanner.ui;
+
+import bg.paskov.scanner.config.ConfigManager;
+import bg.paskov.scanner.notification.EmailSender;
+import bg.paskov.scanner.notification.TypesNotifire;
+import bg.paskov.scanner.util.LogErrors;
+
 import javax.swing.*;
 
 public class SetupWizard {
-   private ConfigManager configManager;
-   LogErrors logErrors;
+    LogErrors logErrors;
+    private final ConfigManager configManager;
 
     public SetupWizard(ConfigManager configManager, LogErrors logErrors) {
         this.configManager = configManager;

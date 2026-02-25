@@ -1,3 +1,5 @@
+package bg.paskov.scanner.model;
+
 public class Advertisement {
     private final String title;
     private final String link;
@@ -7,7 +9,6 @@ public class Advertisement {
         this.title = title;
         this.link = link;
         this.id = id;
-
     }
 
     public String getLink() {

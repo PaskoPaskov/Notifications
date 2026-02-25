@@ -1,3 +1,7 @@
+package bg.paskov.scanner.notification;
+
+import bg.paskov.scanner.util.LogErrors;
+import bg.paskov.scanner.util.RetryExecutor;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -56,7 +60,7 @@ public class EmailSender implements Notifiable {
             System.out.println("Email sent!");
         } catch (MessagingException e) {
             System.err.println("[EMAIL ERROR] неуспешно изпращане: " + e.getMessage());
-            logErrors.log("EmailSender", "ERROR", "Failed to send email", e);
+            logErrors.log("bg.paskov.scanner.notification.EmailSender", "ERROR", "Failed to send email", e);
             throw new RuntimeException(e);
         }
     }
@@ -77,7 +81,7 @@ public class EmailSender implements Notifiable {
                 sendAction,
                 5,
                 2_000,
-                "EmailSender",
+                "bg.paskov.scanner.notification.EmailSender",
                 "Send email",
                 logErrors
         );
@@ -91,7 +95,7 @@ public class EmailSender implements Notifiable {
                 Message.RecipientType.TO,
                 InternetAddress.parse(toEmail)
         );
-        message.setSubject("MobileBgScanner – test email");
+        message.setSubject("bg.paskov.scanner.service.MobileBgScanner – test email");
         message.setText(
                 "This is a test email.\n\n" +
                         "Your configuration is valid and email notifications will work."

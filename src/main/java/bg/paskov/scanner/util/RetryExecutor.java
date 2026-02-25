@@ -1,7 +1,9 @@
+package bg.paskov.scanner.util;
+
 public class RetryExecutor {
 
     // Execute an action with retry logic and exponential backoff
-    public  static void execute(
+    public static void execute(
             Runnable action,
             int attempts,
             long initialDelayMillis,
@@ -33,7 +35,7 @@ public class RetryExecutor {
                     Thread.sleep(delay);
                 } catch (InterruptedException ie) {
                     Thread.currentThread().interrupt();
-                    logErrors.log("RetryExecutor", "WARN", "Retry interrupted", ie);
+                    logErrors.log("bg.paskov.scanner.util.RetryExecutor", "WARN", "Retry interrupted", ie);
                     return;
                 }
 

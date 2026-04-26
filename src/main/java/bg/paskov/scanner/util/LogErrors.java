@@ -35,7 +35,7 @@ public class LogErrors {
                     StandardOpenOption.CREATE,
                     StandardOpenOption.APPEND
             )) {
-                writeLine(writer, "[" + level + "] [" + module + "] " + message);
+                writeLine(writer, "[" + module + "] [" + level + "] " + message);
 
                 if (e != null) {
                     writeLine(writer, "Exception: " + e.getClass().getName());

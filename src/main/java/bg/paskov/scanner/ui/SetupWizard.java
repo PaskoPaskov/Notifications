@@ -8,7 +8,7 @@ import bg.paskov.scanner.util.LogErrors;
 import javax.swing.*;
 
 public class SetupWizard {
-    LogErrors logErrors;
+    private final LogErrors logErrors;
     private final ConfigManager configManager;
 
     public SetupWizard(ConfigManager configManager, LogErrors logErrors) {
@@ -82,10 +82,10 @@ public class SetupWizard {
         }
 
         // Validate that scan interval is a positive number
-        int seconds;
+        int scanInterval;
         try {
-            seconds = Integer.parseInt(interval);
-            if (seconds <= 0) {
+            scanInterval = Integer.parseInt(interval);
+            if (scanInterval <= 0) {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
@@ -122,7 +122,7 @@ public class SetupWizard {
         configManager.setProperties("email.to", to);
         configManager.setProperties("email.password", password);
         configManager.setProperties("scan.url", url);
-        configManager.setProperties("scan.interval.seconds", String.valueOf(seconds));
+        configManager.setProperties("scan.interval.days", String.valueOf(scanInterval));
         configManager.setProperties("notification.retry", "true");
 
         configManager.save();

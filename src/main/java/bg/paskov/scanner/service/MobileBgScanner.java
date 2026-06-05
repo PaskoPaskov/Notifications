@@ -96,8 +96,8 @@ public class MobileBgScanner implements SiteScanner {
 
                 oldAdvertisements.add(
                         new Advertisement(
-                                parts[1], // title
-                                parts[2], // link
+                                parts[2], // title
+                                parts[1], // link
                                 parts[0]  // id
                         )
                 );
@@ -138,8 +138,8 @@ public class MobileBgScanner implements SiteScanner {
             for (Advertisement advertisement : newAdvertisements) {
                 writer.write(
                         advertisement.getId() + "," +
-                                advertisement.getTitle() + "," +
-                                advertisement.getLink()
+                                advertisement.getLink() + "," +
+                                advertisement.getTitle()
                 );
                 writer.newLine();
             }

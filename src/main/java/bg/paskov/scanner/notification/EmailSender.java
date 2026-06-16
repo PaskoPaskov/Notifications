@@ -18,16 +18,20 @@ public class EmailSender implements Notifiable {
     private final LogErrors logErrors;
 
     public EmailSender(String fromEmail, String appPassword, String toEmail, TypesNotifire typesNotifire, LogErrors logErrors) {
+        this(fromEmail, appPassword, toEmail, typesNotifire, logErrors, createSession(fromEmail, appPassword));
+    }
+
+    public EmailSender(String fromEmail, String appPassword, String toEmail, TypesNotifire typesNotifire, LogErrors logErrors, Session session) {
         this.fromEmail = fromEmail;
         this.appPassword = appPassword;
-        this.session = createSession();
         this.toEmail = toEmail;
         this.typesNotifire = typesNotifire;
         this.logErrors = logErrors;
+        this.session = session;
     }
 
     // Create and configure a mail session using Gmail SMTP
-    private Session createSession() {
+    private static Session createSession(String fromEmail, String appPassword) {
         Properties props = new Properties();
 
         props.put("mail.smtp.auth", "true");
@@ -47,6 +51,10 @@ public class EmailSender implements Notifiable {
         });
     }
 
+    void submitToSmtp(Message message) throws MessagingException {
+        Transport.send(message);
+    }
+
     // Send a single email message
     private void sendEmail(String to, String subject, String body) {
         try {
@@ -56,8 +64,9 @@ public class EmailSender implements Notifiable {
             message.setSubject(subject);
             message.setText(body);
 
-            Transport.send(message);
+            submitToSmtp(message);
             System.out.println("Email sent!");
+
         } catch (MessagingException e) {
             System.err.println("[EMAIL ERROR] неуспешно изпращане: " + e.getMessage());
             logErrors.log("bg.paskov.scanner.notification.EmailSender", "ERROR", "Failed to send email", e);
@@ -101,7 +110,7 @@ public class EmailSender implements Notifiable {
                         "Your configuration is valid and email notifications will work."
         );
 
-        Transport.send(message);
+        submitToSmtp(message);
     }
 
 

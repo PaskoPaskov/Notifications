@@ -2,6 +2,10 @@ package bg.paskov.scanner.util;
 
 public class RetryExecutor {
 
+    private RetryExecutor() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     // Execute an action with retry logic and exponential backoff
     public static void execute(
             Runnable action,

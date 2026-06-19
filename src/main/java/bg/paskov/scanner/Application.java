@@ -49,11 +49,16 @@ public class Application {
                     "bg.paskov.scanner.Application terminated: configuration not completed",
                     null
             );
-            System.exit(0);
+            exitApplication();
+            return;
         }
 
         trayManager.init();
         startMobileBgScanner();
+    }
+
+    void exitApplication() {
+        System.exit(0);
     }
 
     private boolean isReconfigure(String[] args) {
